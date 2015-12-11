@@ -1,4 +1,4 @@
-package codepath.ui;
+package com.codepath.ui;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import codepath.ui.R;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -98,7 +99,7 @@ public class MainActivity extends Activity {
             }
         });
     }
-    https://github.com/ipande/SimpleToDoList.git
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
