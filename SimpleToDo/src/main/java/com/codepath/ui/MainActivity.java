@@ -11,6 +11,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import codepath.ui.R;
+
+import com.codepath.models.DbHelper;
+import com.codepath.models.Item;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -21,8 +24,8 @@ import java.util.List;
 
 public class MainActivity extends Activity {
 
-    private List<String> items;
-    private ArrayAdapter<String> listAdapter;
+    private List<Item> items;
+    private ArrayAdapter<Item> listAdapter;
     ListView lvItems;
 
     public static final String ITEMS_PREF = "com.codepath.com.simpletodo.ITEMS";
@@ -40,51 +43,43 @@ public class MainActivity extends Activity {
 
         lvItems = (ListView) findViewById(R.id.lvItems);
         retrieveSet();
-        listAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items);
+        listAdapter = new ArrayAdapter<Item>(this,android.R.layout.simple_list_item_1,items);
         lvItems.setAdapter(listAdapter);
         setupViewListener();
-
-
 
     }
 
     private void retrieveSet(){
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        GsonBuilder gsonb = new GsonBuilder();
-        Gson gson = gsonb.create();
-        String values = sharedPref.getString(ITEMS_PREF, null);
-        if(values == null) {
+
+        List<Item> itemList = DbHelper.getAll();
+        if(itemList == null || itemList.size() == 0) {
             Log.e(APP_TAG,"Items are null!");
-            items = new ArrayList<String>();
+            items = new ArrayList<Item>();
         }
         else {
-            items = new ArrayList<String>();
-            items.addAll((ArrayList<String>)gson.fromJson(values,new TypeToken<List<String>>(){}.getType()));
+            items = new ArrayList<Item>();
+            items.addAll(itemList);
         }
 
-    }
-
-    private void saveList(){
-        //TODO: dont save as set
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-
-        GsonBuilder gsonb = new GsonBuilder();
-        Gson gson = gsonb.create();
-        String values = gson.toJson(items);
-
-        editor.putString(ITEMS_PREF,values);
-
-        editor.commit();
     }
 
     private void setupViewListener() {
         lvItems.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                // Delete item at this position
+
+                // 1. get the item:
+                Item i = items.get(position);
+
+                // 2. remove from DB
+                DbHelper.removeItem(i);
+
+                // 3. remove from list
                 items.remove(position);
+
                 listAdapter.notifyDataSetChanged();
-                saveList();
+
                 return true;
             }
         });
@@ -93,7 +88,7 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent editItemIntent = new Intent(MainActivity.this,EditItemActivity.class);
-                editItemIntent.putExtra(TEXT,items.get(position));
+                editItemIntent.putExtra(TEXT,items.get(position).toString());
                 editItemIntent.putExtra(POS,position);
                 startActivityForResult(editItemIntent,REQUEST_CODE);
             }
@@ -108,21 +103,33 @@ public class MainActivity extends Activity {
             String name = data.getExtras().getString("EDITED");
             int code = data.getExtras().getInt("code", 0);
             int pos = data.getIntExtra(POS, -1);
+
+            // Item has been edited
+            Item editedItem = DbHelper.editItem(items.get(pos),name);
+
             listAdapter.remove(items.get(pos));
-            listAdapter.insert(name,pos);
-            items.set(pos,name);
+            listAdapter.insert(editedItem,pos);
+
+            items.set(pos,editedItem);
+
             Log.d(APP_TAG,"Items: "+items.toString());
+
             listAdapter.setNotifyOnChange(Boolean.TRUE);
-            saveList();
         }
     }
 
     public void onAddItem(View v){
+
         EditText etItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etItem.getText().toString();
-        listAdapter.add(itemText);
+
+        // Add an item
+        Item newItem = DbHelper.addItem(itemText);
+
+        // Add to adapter
+        listAdapter.add(newItem);
+
         etItem.setText("");
-        saveList();
     }
 
 

@@ -6,6 +6,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:name="com.activeandroid.app.Application"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.codepath.ui.MainActivity"
