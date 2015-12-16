@@ -1,10 +1,9 @@
 package com.codepath.ui;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,21 +13,17 @@ import codepath.ui.R;
 
 import com.codepath.models.DbHelper;
 import com.codepath.models.Item;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity implements EditNameDialog.EditNameDialogListener {
 
     private List<Item> items;
     private ArrayAdapter<Item> listAdapter;
     ListView lvItems;
 
-    public static final String ITEMS_PREF = "com.codepath.com.simpletodo.ITEMS";
     public static final String APP_TAG = "com.codepath.com.simpletodo.TAG";
     public static final String TEXT = "TEXT";
     public static final String POS = "POS";
@@ -87,10 +82,12 @@ public class MainActivity extends Activity {
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent editItemIntent = new Intent(MainActivity.this,EditItemActivity.class);
-                editItemIntent.putExtra(TEXT,items.get(position).toString());
-                editItemIntent.putExtra(POS,position);
-                startActivityForResult(editItemIntent,REQUEST_CODE);
+//                Intent editItemIntent = new Intent(MainActivity.this,EditItemActivity.class);
+//                editItemIntent.putExtra(TEXT,items.get(position).toString());
+//                editItemIntent.putExtra(POS,position);
+//                startActivityForResult(editItemIntent,REQUEST_CODE);
+                showEditDialog(items.get(position).toString(),position);
+
             }
         });
     }
@@ -153,5 +150,24 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showEditDialog(String itemToEdit, int position) {
+        FragmentManager fm = getSupportFragmentManager();
+        EditNameDialog editNameDialog = EditNameDialog.newInstance(itemToEdit,position);
+        editNameDialog.show(fm, "fragment_edit_name");
+    }
+
+    @Override
+    public void onFinishEditDialog(String inputText, int position) {
+        // Item has been edited
+        Item editedItem = DbHelper.editItem(items.get(position),inputText);
+
+        listAdapter.remove(items.get(position));
+        listAdapter.insert(editedItem,position);
+
+        items.set(position,editedItem);
+        Log.d(APP_TAG,"Items: "+items.toString());
+        listAdapter.setNotifyOnChange(Boolean.TRUE);
     }
 }
