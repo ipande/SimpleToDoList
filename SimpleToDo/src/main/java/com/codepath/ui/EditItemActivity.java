@@ -7,8 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import codepath.ui.R;
+import com.codepath.utils.Constants;
 
-
+/**
+ * Activity for editing items -
+ * Not used any more because we're using the dialog fragment
+ */
 public class EditItemActivity extends Activity {
     private EditText editText;
     private Button mSaveButton;
@@ -25,10 +29,10 @@ public class EditItemActivity extends Activity {
         setupSaveListener();
 
         Intent i = getIntent();
-        if(i!=null){
-            String itemText = i.getStringExtra(MainActivity.TEXT);
-            itemPos = i.getIntExtra(MainActivity.POS,-1);
-            if(itemText!=null) {
+        if (i != null) {
+            String itemText = i.getStringExtra(Constants.TEXT);
+            itemPos = i.getIntExtra(Constants.POS, -1);
+            if (itemText != null) {
                 editText.setText(itemText);
                 editText.setCursorVisible(Boolean.TRUE);
                 editText.setFocusable(Boolean.TRUE);
@@ -43,9 +47,9 @@ public class EditItemActivity extends Activity {
             public void onClick(View v) {
 
                 Intent data = new Intent();
-                data.putExtra("EDITED",editText.getText().toString());
-                data.putExtra("code",MainActivity.REQUEST_CODE);
-                data.putExtra(MainActivity.POS,itemPos);
+                data.putExtra("EDITED", editText.getText().toString());
+                data.putExtra("code", Constants.REQUEST_CODE);
+                data.putExtra(Constants.POS, itemPos);
                 setResult(MainActivity.RESULT_OK, data);
                 finish();
             }
