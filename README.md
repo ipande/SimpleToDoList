@@ -8,16 +8,14 @@ Submitted by: Ishan Pande
 Time spent: 4.5 hours spent in total
 
 Completed user stories:
+1. Required: User can successfully add and remove items from the todo list
+2. Required: User can tap a todo item in the list and bring up an edit screen for the todo 
+	item and then have any changes to the text reflected in the todo list.
+3. Required: User can persist todo items and retrieve them properly on app restart
 
- Required: User can **successfully add and remove items** from the todo list
- Required: User can **tap a todo item in the list and bring up an edit screen for the todo 
- 			item** and then have any changes to the text reflected in the todo list.
- Required: User can **persist todo items** and retrieve them properly on app restart
-
-The following **optional** features are implemented:
-
- Optional: Persist the todo items using SQLite (Active Android ORM) instead of a text file
- Optional: Use a [DialogFragment] instead of new Activity for editing items
+The following optional features are implemented:
+1. Optional: Persist the todo items using SQLite (Active Android ORM) instead of a text file
+2. Optional: Use a [DialogFragment] instead of new Activity for editing items
 
 ## Video Walkthrough 
 
