@@ -18,8 +18,8 @@ public class DbHelper {
                 .execute();
     }
 
-    public static Item addItem(String text) {
-        Item i = new Item(text);
+    public static Item addItem(String text,String priority) {
+        Item i = new Item(text,priority);
         i.save();
         return i;
     }
@@ -36,6 +36,7 @@ public class DbHelper {
                 + itemToEdit.text + " ID: " + itemToEdit.getId());
         Item i = Item.load(Item.class, itemToEdit.getId());
         i.setText(text);
+        i.setPriority(itemToEdit.priority);
         i.save();
         return i;
     }

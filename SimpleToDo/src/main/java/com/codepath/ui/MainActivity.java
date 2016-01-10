@@ -23,12 +23,15 @@ import java.util.List;
  * This class handles the lifecycle of the app
  */
 public class MainActivity extends AppCompatActivity
-        implements EditTextDialogFragment.EditNameDialogListener {
+        implements EditTextDialogFragment.EditNameDialogListener,
+        AddItemDetailsFragment.OnItemDetailsAddedListener {
 
     ListView lvItems;
     private List<Item> items;
     //private ArrayAdapter<Item> listAdapter;
     private ItemAdapter listAdapter;
+
+    private String itemPriority;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,10 +123,10 @@ public class MainActivity extends AppCompatActivity
         EditText etItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etItem.getText().toString();
 
-        showEditDialog(itemText, items.size(),"Add Item Priority");
+        showItemDetailsDialog(itemText);
 
         // Add an item
-        Item newItem = DbHelper.addItem(itemText);
+        Item newItem = DbHelper.addItem(itemText,itemPriority);
 
         // Add to adapter
         listAdapter.add(newItem);
@@ -131,23 +134,20 @@ public class MainActivity extends AppCompatActivity
         etItem.setText(Constants.BLANK);
     }
 
-
-    private void showEditDialog(String itemToEdit, int position,String... editFragArg) {
-
+    private void showItemDetailsDialog(String itemAdded){
         FragmentManager fm = getSupportFragmentManager();
+        AddItemDetailsFragment itemDetailsFragment = AddItemDetailsFragment.newInstance(itemAdded);
+        Bundle bundle = new Bundle();
+        bundle.putString(Constants.ADDED_FRAGMENT_ITEM_ARG, itemAdded);
+        itemDetailsFragment.setArguments(bundle);
+        itemDetailsFragment.show(fm,Constants.ADD_DETAILS_FRAGMENT_NAME);
+    }
 
 
-        if(editFragArg.length!=0) {
-            AddItemDetailsFragment itemDetailsFragment = AddItemDetailsFragment.newInstance(itemToEdit,position);
-            Bundle bundle = new Bundle();
-            bundle.putString(Constants.EDIT_FRAGMENT_ARG, editFragArg[0]);
-            bundle.putString(Constants.EDIT_FRAGMENT_ITEM_ARG, itemToEdit);
-            itemDetailsFragment.setArguments(bundle);
-            itemDetailsFragment.show(fm,Constants.ADD_DETAILS_FRAGMENT_NAME);
-        }else {
-            EditTextDialogFragment editNameDialog = EditTextDialogFragment.newInstance(itemToEdit, position);
-            editNameDialog.show(fm, Constants.EDIT_FRAGMENT_NAME);
-        }
+    private void showEditDialog(String itemToEdit, int position) {
+        FragmentManager fm = getSupportFragmentManager();
+        EditTextDialogFragment editNameDialog = EditTextDialogFragment.newInstance(itemToEdit, position);
+        editNameDialog.show(fm, Constants.EDIT_FRAGMENT_NAME);
     }
 
     @Override
@@ -161,5 +161,11 @@ public class MainActivity extends AppCompatActivity
         items.set(position, editedItem);
         Log.d(Constants.APP_TAG, "Items: " + items.toString());
         listAdapter.setNotifyOnChange(Boolean.TRUE);
+    }
+
+    @Override
+    public void onItemDetailsAdded(String priority) {
+        Log.d(Constants.APP_TAG,"Priority in Activity: "+priority);
+        itemPriority = priority;
     }
 }

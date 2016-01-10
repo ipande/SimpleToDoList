@@ -49,7 +49,7 @@ public class EditTextDialogFragment extends DialogFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         fragmentTitle = getArguments().getString(Constants.EDIT_FRAGMENT_ARG);
-        itemAdded = getArguments().getString(Constants.EDIT_FRAGMENT_ITEM_ARG);
+        itemAdded = getArguments().getString(Constants.ADDED_FRAGMENT_ITEM_ARG);
         return inflater.inflate(R.layout.fragment_edit_name_dialog, container);
 
     }

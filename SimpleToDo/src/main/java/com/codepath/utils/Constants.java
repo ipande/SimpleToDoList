@@ -19,6 +19,6 @@ public class Constants {
     public static final String BLANK = "";
 
     public static final String EDIT_FRAGMENT_ARG = "fragment_arg";
-    public static final String EDIT_FRAGMENT_ITEM_ARG = "fragment_item_arg";
+    public static final String ADDED_FRAGMENT_ITEM_ARG = "fragment_item_arg";
 
 }

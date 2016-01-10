@@ -32,9 +32,10 @@ public class Item extends Model {
         super();
     }
 
-    public Item(String text) {
+    public Item(String text,String priority) {
         super();
         this.text = text;
+        this.priority = priority;
     }
 
 
@@ -44,7 +45,7 @@ public class Item extends Model {
 
     @Override
     public String toString() {
-        return this.text;
+        return this.text+","+ this.priority;
     }
 
 }
