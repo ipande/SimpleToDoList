@@ -15,6 +15,10 @@ public class Constants {
     public static final int RESULT_OK = 200;
 
     public static final String EDIT_FRAGMENT_NAME = "fragment_edit_name";
+    public static final String ADD_DETAILS_FRAGMENT_NAME = "fragment_details";
     public static final String BLANK = "";
+
+    public static final String EDIT_FRAGMENT_ARG = "fragment_arg";
+    public static final String EDIT_FRAGMENT_ITEM_ARG = "fragment_item_arg";
 
 }

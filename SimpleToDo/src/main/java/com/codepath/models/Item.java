@@ -4,6 +4,8 @@ import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
+import java.sql.Date;
+
 
 /**
  * a class to model a ToDo item in the list view
@@ -12,7 +14,18 @@ import com.activeandroid.annotation.Table;
 @Table(name = "Items")
 public class Item extends Model {
     @Column(name = "Name")
-    public String name;
+    public String text;
+
+    //TODO: this should be an enum
+    public String priority;
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
 
     // Make sure to have a default constructor for every ActiveAndroid model
     public Item() {
@@ -21,18 +34,17 @@ public class Item extends Model {
 
     public Item(String text) {
         super();
-
-        this.name = text;
-
+        this.text = text;
     }
 
-    public void setName(String name) {
-        this.name = name;
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override
     public String toString() {
-        return this.name;
+        return this.text;
     }
 
 }

@@ -26,16 +26,16 @@ public class DbHelper {
 
     public static void removeItem(Item toRemoveItem) {
         Log.d(Constants.APP_TAG, "removing item: "
-                + toRemoveItem.name + " ID: " + toRemoveItem.getId());
+                + toRemoveItem.text + " ID: " + toRemoveItem.getId());
         Item i = Item.load(Item.class, toRemoveItem.getId());
         i.delete();
     }
 
     public static Item editItem(Item itemToEdit, String text) {
         Log.d(Constants.APP_TAG, "editing item: "
-                + itemToEdit.name + " ID: " + itemToEdit.getId());
+                + itemToEdit.text + " ID: " + itemToEdit.getId());
         Item i = Item.load(Item.class, itemToEdit.getId());
-        i.setName(text);
+        i.setText(text);
         i.save();
         return i;
     }

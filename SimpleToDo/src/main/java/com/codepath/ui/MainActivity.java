@@ -7,13 +7,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+
 import codepath.ui.R;
 import com.codepath.models.DbHelper;
 import com.codepath.models.Item;
 import com.codepath.utils.Constants;
+import com.codepath.utils.ItemAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,11 +23,12 @@ import java.util.List;
  * This class handles the lifecycle of the app
  */
 public class MainActivity extends AppCompatActivity
-        implements EditNameDialog.EditNameDialogListener {
+        implements EditTextDialogFragment.EditNameDialogListener {
 
     ListView lvItems;
     private List<Item> items;
-    private ArrayAdapter<Item> listAdapter;
+    //private ArrayAdapter<Item> listAdapter;
+    private ItemAdapter listAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +36,10 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         lvItems = (ListView) findViewById(R.id.lvItems);
+
         retrieveItems();
-        listAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, items);
+        //listAdapter = new ArrayAdapter<Item>(this, android.R.layout.simple_list_item_1, items);
+        listAdapter = new ItemAdapter(getApplicationContext(),items);
         lvItems.setAdapter(listAdapter);
         setupViewListener();
 
@@ -82,7 +86,7 @@ public class MainActivity extends AppCompatActivity
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                showEditDialog(items.get(position).toString(), position);
+                    showEditDialog(items.get(position).toString(), position);
 
             }
         });
@@ -116,6 +120,8 @@ public class MainActivity extends AppCompatActivity
         EditText etItem = (EditText) findViewById(R.id.etNewItem);
         String itemText = etItem.getText().toString();
 
+        showEditDialog(itemText, items.size(),"Add Item Priority");
+
         // Add an item
         Item newItem = DbHelper.addItem(itemText);
 
@@ -126,10 +132,22 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void showEditDialog(String itemToEdit, int position) {
+    private void showEditDialog(String itemToEdit, int position,String... editFragArg) {
+
         FragmentManager fm = getSupportFragmentManager();
-        EditNameDialog editNameDialog = EditNameDialog.newInstance(itemToEdit, position);
-        editNameDialog.show(fm, Constants.EDIT_FRAGMENT_NAME);
+
+
+        if(editFragArg.length!=0) {
+            AddItemDetailsFragment itemDetailsFragment = AddItemDetailsFragment.newInstance(itemToEdit,position);
+            Bundle bundle = new Bundle();
+            bundle.putString(Constants.EDIT_FRAGMENT_ARG, editFragArg[0]);
+            bundle.putString(Constants.EDIT_FRAGMENT_ITEM_ARG, itemToEdit);
+            itemDetailsFragment.setArguments(bundle);
+            itemDetailsFragment.show(fm,Constants.ADD_DETAILS_FRAGMENT_NAME);
+        }else {
+            EditTextDialogFragment editNameDialog = EditTextDialogFragment.newInstance(itemToEdit, position);
+            editNameDialog.show(fm, Constants.EDIT_FRAGMENT_NAME);
+        }
     }
 
     @Override
