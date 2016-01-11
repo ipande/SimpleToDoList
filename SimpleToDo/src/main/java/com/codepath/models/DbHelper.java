@@ -31,12 +31,12 @@ public class DbHelper {
         i.delete();
     }
 
-    public static Item editItem(Item itemToEdit, String text) {
+    public static Item editItem(Item itemToEdit, String text,String priority) {
         Log.d(Constants.APP_TAG, "editing item: "
                 + itemToEdit.text + " ID: " + itemToEdit.getId());
         Item i = Item.load(Item.class, itemToEdit.getId());
         i.setText(text);
-        i.setPriority(itemToEdit.priority);
+        i.setPriority(priority);
         i.save();
         return i;
     }

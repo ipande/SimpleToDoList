@@ -96,27 +96,27 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Correct item has been edited
-        if (resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE) {
-            String name = data.getExtras().getString("EDITED");
-            int code = data.getExtras().getInt("code", 0);
-            int pos = data.getIntExtra(Constants.POS, -1);
-
-            // Item has been edited
-            Item editedItem = DbHelper.editItem(items.get(pos), name);
-
-            listAdapter.remove(items.get(pos));
-            listAdapter.insert(editedItem, pos);
-
-            items.set(pos, editedItem);
-
-            Log.d(Constants.APP_TAG, "Items: " + items.toString());
-
-            listAdapter.setNotifyOnChange(Boolean.TRUE);
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        // Correct item has been edited
+//        if (resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE) {
+//            String name = data.getExtras().getString("EDITED");
+//            int code = data.getExtras().getInt("code", 0);
+//            int pos = data.getIntExtra(Constants.POS, -1);
+//
+//            // Item has been edited
+//            Item editedItem = DbHelper.editItem(items.get(pos), name);
+//
+//            listAdapter.remove(items.get(pos));
+//            listAdapter.insert(editedItem, pos);
+//
+//            items.set(pos, editedItem);
+//
+//            Log.d(Constants.APP_TAG, "Items: " + items.toString());
+//
+//            listAdapter.setNotifyOnChange(Boolean.TRUE);
+//        }
+//    }
 
     public void onAddItem(View v) {
 
@@ -124,12 +124,6 @@ public class MainActivity extends AppCompatActivity
         String itemText = etItem.getText().toString();
 
         showItemDetailsDialog(itemText);
-
-        // Add an item
-        Item newItem = DbHelper.addItem(itemText,itemPriority);
-
-        // Add to adapter
-        listAdapter.add(newItem);
 
         etItem.setText(Constants.BLANK);
     }
@@ -151,9 +145,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onFinishEditDialog(String inputText, int position) {
+    public void onFinishEditDialog(String inputText, int position, String itemPriority) {
         // Correct item has been edited
-        Item editedItem = DbHelper.editItem(items.get(position), inputText);
+        Item editedItem = DbHelper.editItem(items.get(position), inputText,itemPriority);
 
         listAdapter.remove(items.get(position));
         listAdapter.insert(editedItem, position);
@@ -164,8 +158,14 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemDetailsAdded(String priority) {
+    public void onItemDetailsAdded(String priority, String itemText) {
         Log.d(Constants.APP_TAG,"Priority in Activity: "+priority);
         itemPriority = priority;
+        // Add an item
+        Item newItem = DbHelper.addItem(itemText,itemPriority);
+
+        // Add to adapter
+        listAdapter.add(newItem);
+
     }
 }

@@ -16,11 +16,11 @@ import com.codepath.utils.Constants;
 /**
  * A fragment to support editing of items
  */
-//TODO: make the textview visible onAddItem :)
 public class EditTextDialogFragment extends DialogFragment
         implements TextView.OnEditorActionListener {
     private EditText mEditText;
     private TextView textAddedTextView;
+    private Spinner priorityDropdown;
 
     private int position;
     private String fragmentTitle;
@@ -84,7 +84,7 @@ public class EditTextDialogFragment extends DialogFragment
         mEditText.setSelection(mEditText.getText().length());
         mEditText.setOnEditorActionListener(this);
 
-        Spinner priorityDropdown = (Spinner)view.findViewById(R.id.itemPriorityEditSpinner);
+        priorityDropdown = (Spinner)view.findViewById(R.id.itemPriorityEditSpinner);
 
         // Create an ArrayAdapter using the string array and a default spinner
         ArrayAdapter<CharSequence> staticAdapter = ArrayAdapter
@@ -96,7 +96,6 @@ public class EditTextDialogFragment extends DialogFragment
         // Apply the adapter to the spinner
         priorityDropdown.setAdapter(staticAdapter);
 
-
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
@@ -107,7 +106,9 @@ public class EditTextDialogFragment extends DialogFragment
         if (EditorInfo.IME_ACTION_DONE == actionId) {
             // Return input text to activity
             EditNameDialogListener listener = (EditNameDialogListener) getActivity();
-            listener.onFinishEditDialog(mEditText.getText().toString(), position);
+
+            listener.onFinishEditDialog(mEditText.getText().toString(), position,
+                    String.valueOf(priorityDropdown.getSelectedItem()));
             dismiss();
             return true;
         }
@@ -116,6 +117,6 @@ public class EditTextDialogFragment extends DialogFragment
 
 
     public interface EditNameDialogListener {
-        void onFinishEditDialog(String inputText, int position);
+        void onFinishEditDialog(String inputText, int position,String itemPriority);
     }
 }

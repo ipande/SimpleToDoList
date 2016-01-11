@@ -45,7 +45,7 @@ public class Item extends Model {
 
     @Override
     public String toString() {
-        return this.text+","+ this.priority;
+        return this.text;
     }
 
 }

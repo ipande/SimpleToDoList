@@ -2,6 +2,7 @@ package com.codepath.utils;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,19 @@ public class ItemAdapter extends ArrayAdapter<Item>{
 
         tvName.setTextColor(Color.BLACK);
 
+        TextView itemPriorityView = (TextView) convertView.findViewById(R.id.itemPriorityText);
+
+        Log.d(Constants.APP_TAG, "pri in adapter " + item.getPriority());
+
+        itemPriorityView.setText(item.getPriority());
+        if(item.getPriority()!=null) {
+            if (item.getPriority().equalsIgnoreCase("low")) {
+                itemPriorityView.setTextColor(Color.parseColor("#FFF06D2F"));
+            } else if (item.getPriority().equalsIgnoreCase("high")) {
+                itemPriorityView.setTextColor(Color.RED);
+            } else
+                itemPriorityView.setTextColor(Color.BLUE);
+        }
 
         // Return the completed view to render on screen
         return convertView;

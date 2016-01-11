@@ -83,7 +83,7 @@ public class AddItemDetailsFragment extends DialogFragment{
             public void onClick(View v) {
                 Log.d(Constants.APP_TAG,"Priority: "+ String.valueOf(priorityDropdown.getSelectedItem()));
                 OnItemDetailsAddedListener listener = (OnItemDetailsAddedListener) getActivity();
-                listener.onItemDetailsAdded(String.valueOf(priorityDropdown.getSelectedItem()));
+                listener.onItemDetailsAdded(String.valueOf(priorityDropdown.getSelectedItem()),itemAdded);
                 dismiss();
             }
         });
@@ -91,7 +91,7 @@ public class AddItemDetailsFragment extends DialogFragment{
 
     // Container Activity must implement this interface
     public interface OnItemDetailsAddedListener {
-        void onItemDetailsAdded(String priority);
+        void onItemDetailsAdded(String priority,String itemText);
     }
 
 }
