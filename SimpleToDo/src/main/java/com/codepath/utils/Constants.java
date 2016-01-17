@@ -10,6 +10,7 @@ public class Constants {
 
     public static final String APP_TAG = "com.codepath.com.simpletodo.TAG";
     public static final String TEXT = "TEXT";
+    public static final String DUE_DATE = "DUE_DATE";
     public static final String POS = "POS";
     public static final int REQUEST_CODE = 100;
     public static final int RESULT_OK = 200;

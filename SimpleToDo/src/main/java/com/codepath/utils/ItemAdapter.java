@@ -56,6 +56,12 @@ public class ItemAdapter extends ArrayAdapter<Item>{
                 itemPriorityView.setTextColor(Color.BLUE);
         }
 
+        TextView dueDateTv = (TextView) convertView.findViewById(R.id.itemDueDateTextView);
+        if(item.getDueDate()!=null) {
+            String date = item.getDueDate();
+            dueDateTv.setText(date);
+        }
+
         // Return the completed view to render on screen
         return convertView;
     }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">YourApplicationNameHere</string>
+    <string name="app_name">Ishans ToDoList app</string>
     <string name="title_activity_edit_item">EditItemActivity</string>
 
     <string-array name="priority_array">
@@ -10,6 +10,7 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pick_date">Enter Due Date</string>
 
 
 </resources>

@@ -1,6 +1,5 @@
 package com.codepath.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
@@ -89,34 +88,12 @@ public class MainActivity extends AppCompatActivity
         lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    showEditDialog(items.get(position).toString(), position);
+                    showEditDialog(items.get(position).toString(), position
+                            , items.get(position).getDueDate());
 
             }
         });
     }
-
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        // Correct item has been edited
-//        if (resultCode == RESULT_OK && requestCode == Constants.REQUEST_CODE) {
-//            String name = data.getExtras().getString("EDITED");
-//            int code = data.getExtras().getInt("code", 0);
-//            int pos = data.getIntExtra(Constants.POS, -1);
-//
-//            // Item has been edited
-//            Item editedItem = DbHelper.editItem(items.get(pos), name);
-//
-//            listAdapter.remove(items.get(pos));
-//            listAdapter.insert(editedItem, pos);
-//
-//            items.set(pos, editedItem);
-//
-//            Log.d(Constants.APP_TAG, "Items: " + items.toString());
-//
-//            listAdapter.setNotifyOnChange(Boolean.TRUE);
-//        }
-//    }
 
     public void onAddItem(View v) {
 
@@ -138,16 +115,16 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private void showEditDialog(String itemToEdit, int position) {
+    private void showEditDialog(String itemToEdit, int position, String dueDate) {
         FragmentManager fm = getSupportFragmentManager();
-        EditTextDialogFragment editNameDialog = EditTextDialogFragment.newInstance(itemToEdit, position);
+        EditTextDialogFragment editNameDialog = EditTextDialogFragment.newInstance(itemToEdit, position,dueDate);
         editNameDialog.show(fm, Constants.EDIT_FRAGMENT_NAME);
     }
 
     @Override
-    public void onFinishEditDialog(String inputText, int position, String itemPriority) {
+    public void onFinishEditDialog(String inputText, int position, String itemPriority, String dueDateString) {
         // Correct item has been edited
-        Item editedItem = DbHelper.editItem(items.get(position), inputText,itemPriority);
+        Item editedItem = DbHelper.editItem(items.get(position), inputText,itemPriority,dueDateString);
 
         listAdapter.remove(items.get(position));
         listAdapter.insert(editedItem, position);
@@ -158,11 +135,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onItemDetailsAdded(String priority, String itemText) {
+    public void onItemDetailsAdded(String priority, String itemText, String dueDateString) {
         Log.d(Constants.APP_TAG,"Priority in Activity: "+priority);
         itemPriority = priority;
         // Add an item
-        Item newItem = DbHelper.addItem(itemText,itemPriority);
+        Item newItem = DbHelper.addItem(itemText, itemPriority, dueDateString);
 
         // Add to adapter
         listAdapter.add(newItem);

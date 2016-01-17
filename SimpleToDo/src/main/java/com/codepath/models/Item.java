@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 
 /**
@@ -16,8 +17,19 @@ public class Item extends Model {
     @Column(name = "Name")
     public String text;
 
-    //TODO: this should be an enum
+    @Column(name = "Priority")
     public String priority;
+
+    public String getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(String dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    @Column(name = "DueDate")
+    public String dueDate;
 
     public String getPriority() {
         return priority;
@@ -32,10 +44,11 @@ public class Item extends Model {
         super();
     }
 
-    public Item(String text,String priority) {
+    public Item(String text, String priority, String dueDate) {
         super();
         this.text = text;
         this.priority = priority;
+        this.dueDate = dueDate;
     }
 
 
