@@ -5,7 +5,7 @@ management functionality including adding new items, editing and deleting an exi
 
 Submitted by: Ishan Pande
 
-Time spent: 4.5 hours spent in total
+Time spent: 16 hours spent in total
 
 Completed user stories:
 1. Required: User can successfully add and remove items from the todo list
@@ -16,12 +16,16 @@ Completed user stories:
 The following optional features are implemented:
 1. Optional: Persist the todo items using SQLite (Active Android ORM) instead of a text file
 2. Optional: Use a [DialogFragment] instead of new Activity for editing items
+3. Optional: Add support for completion due dates for todo items (and display within listview item)
+
+Extra User Stories:
+1. Added support for priority of a todo item (with display and persistance capabilities)
 
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='https://www.dropbox.com/s/r5gyfgmy4k2jq7r/ToDoApp.gif?dl=0' 1title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/4mYn57V.gifv' 1title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
