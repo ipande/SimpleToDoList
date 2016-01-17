@@ -2,14 +2,30 @@
               android:id="@+id/edit_name"
               android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:layout_gravity="center" android:orientation="vertical"  >
-
-    <TextView
-            android:id="@+id/lbl_your_name"
-            android:layout_width="wrap_content" android:layout_height="wrap_content" />
-
     <EditText
             android:id="@+id/txt_your_name"
             android:layout_width="match_parent"  android:layout_height="wrap_content"
-            android:inputType="text"
-            android:imeOptions="actionDone" />
+            android:inputType="text" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/itemPriorityEditSpinner"
+        android:spinnerMode="dropdown" />
+
+    <TextView
+        android:id="@+id/editDueDateText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:typeface="monospace"
+        android:textAppearance="@style/MyTextAppearance"
+        android:textSize="15dp"/>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finish Editing"
+        android:id="@+id/buttonDoneEdit" />
+
 </LinearLayout>

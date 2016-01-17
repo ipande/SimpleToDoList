@@ -1,10 +1,16 @@
 <resources>
-    <string name="app_name">SimpleToDo</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Ishans ToDoList app</string>
     <string name="title_activity_edit_item">EditItemActivity</string>
+
+    <string-array name="priority_array">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pick_date">Enter Due Date</string>
+
+
 </resources>
